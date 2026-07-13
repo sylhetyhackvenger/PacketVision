@@ -1,4 +1,5 @@
-PacketVision - Real tcpdump Educational Framework
+"""
+PacketVision - Educational TCP-Dump Framework for Gray Hat Hackers
 Author: SYLHETYHACKVENGER (THE-ERROR808)
 ONLY FOR EDUCATIONAL PURPOSES AND RESEARCH
 """
@@ -39,7 +40,7 @@ BANNER = r"""
  |  ___/ _` |/ __| |/ / _ \ __\ \/ / | / __|/ _ \| '_ \
  | |  | (_| | (__|   <  __/ |_ \  /  | \__ \ (_) | | | |
  |_|   \__,_|\___|_|\_\___|\__| \/   |_|___/\___/|_| |_|
-    PacketVision - Real tcpdump Educational Framework
+    PacketVision - Educational TCP-Dump Framework for Gray Hat Hackers
     Author: SYLHETYHACKVENGER (THE-ERROR808)
     ONLY FOR EDUCATIONAL PURPOSES AND RESEARCH
                                                          """
