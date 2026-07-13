@@ -223,7 +223,7 @@ Contributions to PacketVision are welcome! Areas for contribution include:
 ```
 
 
-🎬  
+ 
 
 <p align="center">
   <img src="https://media.giphy.com/media/3og0ILLVvPp8d64Jd6/giphy.gif" width="500">
