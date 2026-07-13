@@ -223,9 +223,11 @@ Contributions to PacketVision are welcome! Areas for contribution include:
 
 ---
 
-🎬 Interactive Demo
+🎬  
 
-https://media.giphy.com/media/3og0ILLVvPp8d64Jd6/giphy.gif
+<p align="center">
+  <img src="https://media.giphy.com/media/3og0ILLVvPp8d64Jd6/giphy.gif" width="500">
+</p>
 
 Experience the power of packet analysis in action.
 
