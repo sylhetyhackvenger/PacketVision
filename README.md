@@ -220,8 +220,8 @@ Contributions to PacketVision are welcome! Areas for contribution include:
 · Documentation: Improving explanations and examples
 · Bug Fixes: Identifying and resolving issues
 · Feature Enhancements: Adding new capabilities
+```
 
----
 
 🎬  
 
@@ -231,8 +231,8 @@ Contributions to PacketVision are welcome! Areas for contribution include:
 
 Experience the power of packet analysis in action.
 
----
 
+```
 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
