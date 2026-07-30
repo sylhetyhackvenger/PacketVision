@@ -11,7 +11,7 @@
 
 ## 📡 Description
 
-**PacketVision** is an advanced educational framework designed to bridge the gap between network security theory and practical packet analysis using `tcpdump`. Developed by SYLHETYHACKVENGER (THE-ERROR808), this interactive tool provides security professionals, network administrators, and cybersecurity students with hands-on experience in network traffic analysis.
+**PacketVision** is an advanced educational framework designed to bridge the gap between network security theory and practical packet analysis using `tcpdump`. Developed by SYLHETYHACKVENGER (THE-ERROR808), this interactive tool provides security professionals, network administrators and cybersecurity students with hands-on experience in network traffic analysis.
 
 The framework features an extensive database of **255 carefully curated tcpdump filters**, each categorized and explained to facilitate deep understanding of network protocols, security threats, and defensive strategies. By combining interactive learning with real-world packet capture execution, PacketVision transforms theoretical knowledge into practical skills.
 
