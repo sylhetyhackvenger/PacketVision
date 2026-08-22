@@ -1,9 +1,3 @@
-"""
-PacketVision - Educational TCP-Dump Framework for Gray Hat Hackers
-Author: SYLHETYHACKVENGER (THE-ERROR808)
-ONLY FOR EDUCATIONAL PURPOSES AND RESEARCH
-"""
-
 import sys
 import time
 import subprocess
@@ -25,14 +19,8 @@ except ImportError:
     print("Rich library not installed. Please run: pip install rich")
     sys.exit(1)
 
-# ------------------------------
-# Logging setup (optional)
-# ------------------------------
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
-# ------------------------------
-# ASCII Banner - Monster from asciiart.website
-# ------------------------------
 BANNER = r"""
  ________________________________________________
  |  __ \         | |      | \ \    / (_)
@@ -45,9 +33,6 @@ BANNER = r"""
     ONLY FOR EDUCATIONAL PURPOSES AND RESEARCH
                                                          """
 
-# ------------------------------
-# Enums for categories
-# ------------------------------
 class Category(Enum):
     INTERFACE = "Interface"
     OUTPUT = "Output"
@@ -69,17 +54,9 @@ class Category(Enum):
     def list_names(cls):
         return [cat.value for cat in cls]
 
-# ------------------------------
-# TTS (Text-to-Speech) with adjustable speed
-# ------------------------------
 class TTS:
     @staticmethod
     def speak(text: str, speed: int = 120):
-        """
-        Speak text using espeak.
-        Speed: words per minute (default 120 – slower than the default 175).
-        Adjust this value to your preference.
-        """
         try:
             subprocess.run(
                 ['espeak', '-s', str(speed), text],
@@ -95,16 +72,12 @@ class TTS:
         except subprocess.CalledProcessError as e:
             logging.error(f"espeak returned error: {e.returncode}")
 
-# ------------------------------
-# Database (filter definitions)
-# ------------------------------
 class TCPDumpDatabase:
     def __init__(self):
         self.items = self._generate_items()
 
     @staticmethod
     def _category_consequences(category: Category) -> str:
-        """Return the consequences string for a given category."""
         base = "**Causes & Consequences**: "
         mapping = {
             Category.OFFENSIVE: "This filter can capture sensitive information (passwords, tokens, exploits). Running it against a target may expose credentials, reveal vulnerabilities, and violate privacy laws if unauthorized. Only use on systems you own or have explicit permission to test.",
@@ -175,11 +148,9 @@ class TCPDumpDatabase:
             return base + f"General filter: `{filt}` provides specific packet capture capability."
 
     def _generate_items(self) -> List[Dict]:
-        """Build the list of 255 filters with full metadata."""
         items = []
         item_id = 1
 
-        # Helper to create an item dict
         def make_item(filt: str, desc: str, cat: Category):
             nonlocal item_id
             item = {
@@ -194,7 +165,6 @@ class TCPDumpDatabase:
             items.append(item)
             item_id += 1
 
-        # 1-20: Core switches
         core = [
             ("-i wlan0", "Capture on Wi-Fi", Category.INTERFACE),
             ("-i eth0", "Capture on Ethernet", Category.INTERFACE),
@@ -220,7 +190,6 @@ class TCPDumpDatabase:
         for filt, desc, cat in core:
             make_item(filt, desc, cat)
 
-        # 21-40: Addressing
         addressing = [
             ("host 192.168.1.10", "Filter by IP", Category.ADDRESSING),
             ("host google.com", "Filter by domain", Category.ADDRESSING),
@@ -246,7 +215,6 @@ class TCPDumpDatabase:
         for filt, desc, cat in addressing:
             make_item(filt, desc, cat)
 
-        # 41-80: Port filters
         ports = [
             (21, "FTP"), (22, "SSH"), (23, "Telnet"), (25, "SMTP"),
             (53, "DNS"), (67, "DHCP server"), (68, "DHCP client"), (69, "TFTP"),
@@ -263,7 +231,6 @@ class TCPDumpDatabase:
         for port, desc in ports:
             make_item(f"port {port}", f"{desc} (port {port})", Category.PORT_FILTER)
 
-        # 81-100: Protocol specifics
         proto = [
             ("tcp", "TCP packets", Category.PROTOCOL),
             ("udp", "UDP packets", Category.PROTOCOL),
@@ -289,7 +256,6 @@ class TCPDumpDatabase:
         for filt, desc, cat in proto:
             make_item(filt, desc, cat)
 
-        # 101-130: TCP flags
         flags = [
             ("tcp[tcpflags] & tcp-syn != 0", "SYN flag set", Category.TCP_FLAGS),
             ("tcp[tcpflags] & tcp-ack != 0", "ACK flag set", Category.TCP_FLAGS),
@@ -325,7 +291,6 @@ class TCPDumpDatabase:
         for filt, desc, cat in flags:
             make_item(filt, desc, cat)
 
-        # 131-160: Size, slicing, rotation
         sizes = [
             ("greater 100", "Packets >100 bytes", Category.SIZE),
             ("less 64", "Packets <64 bytes", Category.SIZE),
@@ -361,7 +326,6 @@ class TCPDumpDatabase:
         for filt, desc, cat in sizes:
             make_item(filt, desc, cat)
 
-        # 161-190: Logical operators
         logic = [
             ("tcp and port 80", "HTTP TCP", Category.LOGIC),
             ("udp and port 53", "DNS UDP", Category.LOGIC),
@@ -397,7 +361,6 @@ class TCPDumpDatabase:
         for filt, desc, cat in logic:
             make_item(filt, desc, cat)
 
-        # 191-220: Payload inspection (fixed syntax: == instead of =)
         payload = [
             ("tcp[20:4] == 0x47455420", "HTTP GET", Category.PAYLOAD),
             ("tcp[20:5] == 0x504F5354", "HTTP POST", Category.PAYLOAD),
@@ -433,7 +396,6 @@ class TCPDumpDatabase:
         for filt, desc, cat in payload:
             make_item(filt, desc, cat)
 
-        # 221-240: Offensive
         offensive = [
             ("-A port 21", "Sniff FTP passwords", Category.OFFENSIVE),
             ("-A port 23", "Sniff Telnet sessions", Category.OFFENSIVE),
@@ -459,7 +421,6 @@ class TCPDumpDatabase:
         for filt, desc, cat in offensive:
             make_item(filt, desc, cat)
 
-        # 241-255: Defensive
         defensive = [
             ("-e arp", "Monitor ARP poisoning", Category.DEFENSIVE),
             ("arp[6:2] == 1 and arp[7:4] == 0x0a000001", "ARP who-has 10.0.0.1", Category.DEFENSIVE),
@@ -480,7 +441,6 @@ class TCPDumpDatabase:
         for filt, desc, cat in defensive:
             make_item(filt, desc, cat)
 
-        # Ensure exactly 255 (we have 255 exactly)
         return items
 
     def get_by_id(self, item_id: int) -> Optional[Dict]:
@@ -489,9 +449,6 @@ class TCPDumpDatabase:
                 return item
         return None
 
-# ------------------------------
-# UI Class
-# ------------------------------
 class PacketVisionUI:
     def __init__(self):
         self.console = Console()
@@ -521,7 +478,6 @@ class PacketVisionUI:
         self.console.print(Align.center(title))
         self.console.print(Align.center("─" * 60, style="dim"))
 
-        # Category selector
         cat_table = Table(show_header=False, box=box.SIMPLE, style="cyan")
         cat_table.add_column("Categories", style="cyan")
         row = []
@@ -540,7 +496,6 @@ class PacketVisionUI:
         search_text = f"Search: {self.search_query}" if self.search_query else "Press 's' to search"
         self.console.print(Align.center(search_text, style="italic yellow"))
 
-        # Filter items
         items = self.db.items
         if self.current_category != "All":
             items = [i for i in items if i["category"] == self.current_category]
@@ -641,24 +596,19 @@ class PacketVisionUI:
         )
         self.console.print(panel)
 
-        # Speak the FULL "Causes & Consequences" text (including the heading) at a slower speed
         TTS.speak(item['consequences'])
 
     def run_real_capture(self, item: Dict):
-        """Execute sudo tcpdump with the selected filter on the target interface."""
         self.console.print("\n[bold yellow]Enter the target interface (e.g., wlan0, eth0):[/bold yellow]")
         target = Prompt.ask("Interface", default="wlan0")
         if not target:
             target = "wlan0"
 
-        # Check if tcpdump exists
         if not shutil.which("tcpdump"):
             self.console.print("[red]Error: tcpdump not found in PATH. Please install it.[/red]")
             input("\nPress Enter to return to dashboard...")
             return
 
-        # Build command: sudo tcpdump -i <target> <filter>
-        # Use shlex.split to handle quotes properly
         try:
             filter_parts = shlex.split(item["filter"])
         except ValueError as e:
@@ -684,12 +634,8 @@ class PacketVisionUI:
         finally:
             input("\nPress Enter to return to dashboard...")
 
-# ------------------------------
-# Main entry point
-# ------------------------------
 def main():
     try:
-        # Verify sudo availability (optional)
         if not shutil.which("sudo"):
             logging.warning("sudo not found; tcpdump may fail without root privileges.")
         ui = PacketVisionUI()
